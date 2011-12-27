@@ -3,7 +3,7 @@
 // The main thing is to keep your code within a function call and not generate global variables.
 // use instead imagejs.modules[yourModule] to store parameters and functions.
 
-imagejs.msg('morphomarkers v0.1 loaded'); // to notify via console and div#msg
+imagejs.msg('morphomarkers v0.1 loaded.'); // to notify via console and div#msg
 
 (function(){
 	var menu={
