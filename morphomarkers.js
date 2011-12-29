@@ -12,4 +12,7 @@ imagejs.msg('morphomarkers v0.1 loaded.'); // to notify via console and div#msg
 	}
 	var name= 'Morphomarkers v0.1';
 	jmat.gId('menu').appendChild(imagejs.menu(menu,name)); 
+	
+	var url='http://morphomarkers.imagejs.googlecode.com/git/morphomarkers.js';
+	imagejs.modules[url].fun=(){};
 })()
