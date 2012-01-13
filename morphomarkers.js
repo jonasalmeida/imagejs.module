@@ -8,18 +8,20 @@
 	// code module
 	// production url 'http://morphomarkers.imagejs.googlecode.com/git/morphomarkers.js';
 	// development url 'http://localhost:8888/imagejs/morphomarkers/morphomarkers.js'
-	var url='morphomarkers.js';
-	imagejs.modules[url]={
+	var id='morphomarkers';
+	imagejs.modules[id]={
 		dist:function(dt,px){ //distance between image data and a pixel
 			if(px.length==2){px=dt[px[0]][px[1]]} // in case the pixel coordinates rather than the pixel is being submitted as px
 			//console.log(px);
 			return jmat.imMap(dt,function(xy){
 				// Euclidean distance 
-				// notice how elegantly the px pixel value is passed to the function through a closure :-)
+				// notice px pixel value is passed to the function through the closure's scope
 				return Math.pow(jmat.sum(xy.slice(0,3).map(function(xyi,i){return Math.pow((xyi-px[i]),2)})),1/2);
 			})	
 		},
 		start:function(){
+			cvTop.style.cursor='crosshair';
+			cvTop.style.left=cvBase.offsetLeft;cvTop.style.top=cvBase.offsetTop; // make sure they're aligned
 			jmat.gId('cvTop').onclick=function(evt){ // click on top for things hapenning in cvBase
 				//imagejs.msg('Morphomarker acquisition ...');
 				var x = evt.clientX-evt.target.offsetLeft;
@@ -29,23 +31,31 @@
 				//var dt = jmat.cloneArray(imagejs.data.dt0);
 				if (jmat.max(imagejs.data.dt0[y][x].slice(0,3))>150){var C=[0,0,1]}
 				else{var C=[1,1,0]}
-				var ctx=this.getContext('2d');
-				ctx.clearRect(0,0,this.width,this.height);
-				jmat.plot(this,x,y,'+',{Color:C,MarkerSize:30})
+				var ctx=cvTop.getContext('2d');
+				//ctx.clearRect(0,0,this.width,this.height);
+				jmat.plot(cvTop,x,y,'+',{Color:C,MarkerSize:30});
+				var d = imagejs.modules[id].dist(imagejs.data.dt0,[y,x]);
+				var thr = jmat.max(jmat.max(d))/10; // arbitrary startign threshold
+				var bw = jmat.im2bw(d,thr); // threshold should be recoded to allow for a function
+				var bw = jmat.arrayfun(bw,function(x){return 1-x}); // get the reciprocal
 			}
 		},
-		end:function(){jmat.gId('cvBase').onclick=null}
+		end:function(){
+			//jmat.gId('cvBase').onclick=null;
+			cvTop.style.cursor='default';
+			cvTop.onclick=null
+			}
 	}
 	
 	// create menu to operate module
 	var menu={
 		Start:function(){
 			imagejs.msg('Morphomarker acquisition active');
-			imagejs.modules[url].start();
+			imagejs.modules[id].start();
 		},
 		End:function(){
 			imagejs.msg('Morphomarker acquisition ended');
-			imagejs.modules[url].end();
+			imagejs.modules[id].end();
 		}
 	}
 	var name= 'Morphomarkers v0.1';
