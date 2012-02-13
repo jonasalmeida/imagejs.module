@@ -22,22 +22,34 @@
 		start:function(){
 			cvTop.style.cursor='crosshair';
 			cvTop.style.left=cvBase.offsetLeft;cvTop.style.top=cvBase.offsetTop; // make sure they're aligned
-			jmat.gId('cvTop').onclick=function(evt){ // click on top for things hapenning in cvBase
+			var cvTopOnClick=function(evt){
 				//imagejs.msg('Morphomarker acquisition ...');
 				var x = evt.clientX-evt.target.offsetLeft;
 				var y = evt.clientY-evt.target.offsetTop;
 				//console.log(x,y);
 				imagejs.msg('('+x+','+y+')');
-				//var dt = jmat.cloneArray(imagejs.data.dt0);
-				if (jmat.max(imagejs.data.dt0[y][x].slice(0,3))>150){var C=[0,0,1]}
-				else{var C=[1,1,0]}
+				//if (jmat.max(imagejs.data.dt0[y][x].slice(0,3))>150){var C=[0,0,1]};else{var C=[1,1,0]} // use background
 				var ctx=cvTop.getContext('2d');
-				//ctx.clearRect(0,0,this.width,this.height);
-				jmat.plot(cvTop,x,y,'+',{Color:C,MarkerSize:30});
+				ctx.clearRect(0,0,this.width,this.height);
 				var d = imagejs.modules[id].dist(imagejs.data.dt0,[y,x]);
-				var thr = jmat.max(jmat.max(d))/10; // arbitrary startign threshold
+				var thr = jmat.max(jmat.max(d))/5; // arbitrary startign threshold
 				var bw = jmat.im2bw(d,thr); // threshold should be recoded to allow for a function
 				var bw = jmat.arrayfun(bw,function(x){return 1-x}); // get the reciprocal
+				jmat.imagesc(cvTop,bw); // display it
+				var C=[1,1,0]; // always use yellow
+				jmat.plot(cvTop,x,y,'+',{Color:C,MarkerSize:30});
+				jmat.plot(cvTop,x,y,'o',{Color:C,MarkerSize:30});
+				msg.innerHTML='<span style="color:blue">processing done.</span>'
+			}
+			jmat.gId('cvTop').onclick=function(evt){ // click on top for things hapenning in cvBase
+				msg.innerHTML='<span style="color:red">processing, please wait ...</span>';
+				var x = evt.clientX-evt.target.offsetLeft;
+				var y = evt.clientY-evt.target.offsetTop;
+				var C=[1,1,0]; // always use yellow
+				jmat.plot(cvTop,x,y,'+',{Color:C,MarkerSize:30});
+				jmat.plot(cvTop,x,y,'o',{Color:C,MarkerSize:30});
+				//cvTopOnClick(evt);
+				setTimeout(cvTopOnClick, 20, evt);				
 			}
 		},
 		end:function(){
