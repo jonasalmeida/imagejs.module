@@ -24,8 +24,8 @@
 			cvTop.style.left=cvBase.offsetLeft;cvTop.style.top=cvBase.offsetTop; // make sure they're aligned
 			var cvTopOnClick=function(evt){
 				//imagejs.msg('Morphomarker acquisition ...');
-				var x = evt.clientX-evt.target.offsetLeft;
-				var y = evt.clientY-evt.target.offsetTop;
+				var x = evt.clientX-evt.target.offsetLeft+window.pageXOffset;
+				var y = evt.clientY-evt.target.offsetTop+window.pageYOffset;
 				//console.log(x,y);
 				imagejs.msg('('+x+','+y+')');
 				//if (jmat.max(imagejs.data.dt0[y][x].slice(0,3))>150){var C=[0,0,1]};else{var C=[1,1,0]} // use background
@@ -46,8 +46,8 @@
 			}
 			jmat.gId('cvTop').onclick=function(evt){ // click on top for things hapenning in cvBase
 				msg.innerHTML='<span style="color:red">processing, please wait ...</span>';
-				var x = evt.clientX-evt.target.offsetLeft;
-				var y = evt.clientY-evt.target.offsetTop;
+				var x = evt.clientX-evt.target.offsetLeft+window.pageXOffset;
+				var y = evt.clientY-evt.target.offsetTop+window.pageYOffset;
 				var C=[1,1,0]; // always use yellow
 				jmat.plot(cvTop,x,y,'+',{Color:C,MarkerSize:30});
 				jmat.plot(cvTop,x,y,'o',{Color:C,MarkerSize:30});
