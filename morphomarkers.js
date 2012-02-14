@@ -35,10 +35,13 @@
 				var thr = jmat.max(jmat.max(d))/5; // arbitrary startign threshold
 				var bw = jmat.im2bw(d,thr); // threshold should be recoded to allow for a function
 				var bw = jmat.arrayfun(bw,function(x){return 1-x}); // get the reciprocal
-				jmat.imagesc(cvTop,bw); // display it
-				var C=[1,1,0]; // always use yellow
-				jmat.plot(cvTop,x,y,'+',{Color:C,MarkerSize:30});
-				jmat.plot(cvTop,x,y,'o',{Color:C,MarkerSize:30});
+				//jmat.imagesc(cvTop,bw); // display it
+				//jmat.imagebw(cvTop,bw,[0,0,0,0],[255,255,0,255]); // display segmentation
+				var edg = jmat.edge(bw);
+				jmat.imagebw(cvTop,edg,[0,0,0,0],[255,255,0,255]); // display edge
+				//var C=[1,1,0]; // always use yellow
+				//jmat.plot(cvTop,x,y,'+',{Color:C,MarkerSize:30});
+				//jmat.plot(cvTop,x,y,'o',{Color:C,MarkerSize:30});
 				msg.innerHTML='<span style="color:blue">processing done.</span>'
 			}
 			jmat.gId('cvTop').onclick=function(evt){ // click on top for things hapenning in cvBase
