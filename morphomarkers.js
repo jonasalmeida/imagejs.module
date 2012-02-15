@@ -31,8 +31,10 @@
 				//if (jmat.max(imagejs.data.dt0[y][x].slice(0,3))>150){var C=[0,0,1]};else{var C=[1,1,0]} // use background
 				var ctx=cvTop.getContext('2d');
 				ctx.clearRect(0,0,this.width,this.height);
-				var d = imagejs.modules[id].dist(imagejs.data.dt0,[y,x]);
-				var thr = jmat.max(jmat.max(d))/5; // arbitrary startign threshold
+				if(!imagejs.modules[id].d){var d = imagejs.modules[id].dist(imagejs.data.dt0,[y,x]);imagejs.data.d=d;}
+				else {var d = imagejs.modules[id].d}
+				if(!imagejs.modules[id].thr){var thr = jmat.max(jmat.max(d))/5;imagejs.modules[id].thr=thr;}
+				else {var thr = imagejs.modules[id].thr}
 				var bw = jmat.im2bw(d,thr); // threshold should be recoded to allow for a function
 				var bw = jmat.arrayfun(bw,function(x){return 1-x}); // get the reciprocal
 				//jmat.imagesc(cvTop,bw); // display it
@@ -42,15 +44,23 @@
 				//var C=[1,1,0]; // always use yellow
 				//jmat.plot(cvTop,x,y,'+',{Color:C,MarkerSize:30});
 				//jmat.plot(cvTop,x,y,'o',{Color:C,MarkerSize:30});
-				msg.innerHTML='<span style="color:blue">processing done.</span>'
+				msg.innerHTML='<span style="color:blue">processing done.</span> Threshold: <span id="slider">____|____|____|____|____|____|____|____|____|____</span>';
+				$(function(){$('#slider').slider({
+					max:jmat.max(jmat.max(d)),
+					min:jmat.min(jmat.min(d)),
+					value:thr,
+					change:function(){imagejs.modules[id].thr=$('#slider').slider('value');jmat.gId('cvTop').onclick(evt,x,y)}
+					})});
+				cvTop.style.left=cvBase.offsetLeft;cvTop.style.top=cvBase.offsetTop; // make sure the two canvas are aligned
 			}
-			jmat.gId('cvTop').onclick=function(evt){ // click on top for things hapenning in cvBase
+			jmat.gId('cvTop').onclick=function(evt,x,y){ // click on top for things hapenning in cvBase
 				msg.innerHTML='<span style="color:red">processing, please wait ...</span>';
-				var x = evt.clientX-evt.target.offsetLeft+window.pageXOffset;
-				var y = evt.clientY-evt.target.offsetTop+window.pageYOffset;
+				if(!x){var x = evt.clientX-evt.target.offsetLeft+window.pageXOffset};
+				if(!y){var y = evt.clientY-evt.target.offsetTop+window.pageYOffset};
 				var C=[1,1,0]; // always use yellow
 				jmat.plot(cvTop,x,y,'+',{Color:C,MarkerSize:30});
 				jmat.plot(cvTop,x,y,'o',{Color:C,MarkerSize:30});
+				cvTop.style.left=cvBase.offsetLeft;cvTop.style.top=cvBase.offsetTop; // make sure the two canvas are aligned
 				//cvTopOnClick(evt);
 				setTimeout(cvTopOnClick, 20, evt);				
 			}
