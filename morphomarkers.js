@@ -47,7 +47,7 @@
 				msg.innerHTML='<span style="color:blue">processing done.</span> Threshold: <span id="slider">____|____|____|____|____|____|____|____|____|____</span>';
 				$(function(){$('#slider').slider({
 					max:jmat.max(jmat.max(d)),
-					min:jmat.min(jmat.min(d)),
+					min:0,
 					value:thr,
 					change:function(){imagejs.modules[id].thr=$('#slider').slider('value');jmat.gId('cvTop').onclick(evt,x,y)}
 					})});
