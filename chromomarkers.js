@@ -4,7 +4,7 @@
 // use instead imagejs.modules[yourModule] to store parameters and functions.
 
 (function(){
-	imagejs.msg('morphomarkers v0.1 loaded.'); // to notify via console and div#msg
+	imagejs.msg('chromomarkers v0.1 loaded.'); // to notify via console and div#msg
 	// code module
 	// production url 'http://morphomarkers.imagejs.googlecode.com/git/morphomarkers.js';
 	// development url 'http://localhost:8888/imagejs/morphomarkers/morphomarkers.js'
