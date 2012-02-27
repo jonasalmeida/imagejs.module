@@ -8,7 +8,7 @@
 	// code module
 	// production url 'http://morphomarkers.imagejs.googlecode.com/git/morphomarkers.js';
 	// development url 'http://localhost:8888/imagejs/morphomarkers/morphomarkers.js'
-	var id='morphomarkers';
+	var id='Chromomarkers';
 	imagejs.modules[id]={
 		dist:function(dt,px){ //distance between image data and a pixel
 			if(px.length==2){px=dt[px[0]][px[1]]} // in case the pixel coordinates rather than the pixel is being submitted as px
