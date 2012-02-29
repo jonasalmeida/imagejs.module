@@ -6,7 +6,6 @@ console.log('shapecount library loaded');
 	
 	var ShapesMenu={
 		Start:function(){
-			console.log('Load Module');
 			msg.innerHTML='Counting started ...';
 			cvTop.style.left=cvBase.offsetLeft;cvTop.style.top=cvBase.offsetTop; // make sure the two canvas are aligned
 		},
@@ -14,7 +13,7 @@ console.log('shapecount library loaded');
 			console.log('... counting ended.');
 		}
 	}
-	jmat.gId('menu').appendChild(imagejs.menu(ShapesMenu,'CountShapes'))
+	jmat.gId('menu').appendChild(imagejs.menu(ShapesMenu,'CountShapes')); //assemble meny
 	
 })()
 

@@ -20,6 +20,12 @@
 				return Math.pow(jmat.sum(xy.slice(0,3).map(function(xyi,i){return Math.pow((xyi-px[i])*Wrgba[i],2)})),1/2);
 			})	
 		},
+		backSeg:function(){ // go back to previous segmentation
+			var segOld = imagejs.modules[id].segOld;
+			imagejs.modules[id].segOld=imagejs.data.seg;
+			imagejs.data.seg=segOld;
+			jmat.imagebw(cvTop,jmat.edge(segOld),[0,0,0,0],[255,255,0,255]); // display edge
+		},
 		segCheckOnChange:function(that){imagejs.modules[id].segNewChecked=that.checked},
 		segNewChecked:true,
 		start:function(){
@@ -62,7 +68,7 @@
 				//var C=[1,1,0]; // always use yellow
 				//jmat.plot(cvTop,x,y,'+',{Color:C,MarkerSize:30});
 				//jmat.plot(cvTop,x,y,'o',{Color:C,MarkerSize:30});
-				msg.innerHTML='<input id="segNew" type="checkbox" onchange="imagejs.modules[\''+id+'\'].segCheckOnChange(this)">New <button><</button> Threshold: <span id="slider">___|___|___|___|___|___|___|___|___|___</span> . <span id="sliderRed" style="color:red">__|__|__|__|__</span> . <span id="sliderGreen" style="color:green">__|__|__|__|__</span> . <span id="sliderBlue" style="color:blue">__|__|__|__|__</span>';
+				msg.innerHTML='<input id="segNew" type="checkbox" onchange="imagejs.modules[\''+id+'\'].segCheckOnChange(this)">New <button id="backSeg" onclick="imagejs.modules[\''+id+'\'].backSeg()"><</button> Threshold: <span id="slider">___|___|___|___|___|___|___|___|___|___</span> . <span id="sliderRed" style="color:red">__|__|__|__|__</span> . <span id="sliderGreen" style="color:green">__|__|__|__|__</span> . <span id="sliderBlue" style="color:blue">__|__|__|__|__</span>';
 				$('#segNew').attr('checked',imagejs.modules[id].segNewChecked);
 				$(function(){$('#slider').slider({
 					max:jmat.max(jmat.max(imagejs.modules[id].d)),
