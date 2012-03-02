@@ -28,7 +28,7 @@ console.log('shapecount library loaded');
 			divCountShapes.id=jmat.uid('divCountShapes');
 			//divCountShapes.style.width=200;
 			$(divCountShapes).addClass("ui-widget-content");
-			var H='<button style="color:red" onclick="this.parentElement.parentElement.removeChild(this.parentElement)">[x]</button>';
+			var H='<button style="color:red" onclick="this.parentElement.parentElement.removeChild(this.parentElement);imagejs.modules.'+id+'.alignCanvas()">[x]</button>';
 			H+=' | <button style="color:green" onclick="imagejs.modules.'+id+'.count(\''+divCountShapes.id+'\')">[>]</button>'
 			H+='<table>';
 			H+='<tr><td>Circularity:</td><td class="countShapesCircularity">...</td></tr>';
@@ -45,7 +45,8 @@ console.log('shapecount library loaded');
 			imagejs.modules[id][divId].density = jmat.sum(jmat.sum(imagejs.data.seg))/jmat.prod(jmat.size(imagejs.data.seg));
 			$('#'+divId+' .countShapesDensity').html(imagejs.modules[id][divId].density*100 + ' %');
 			
-		}
+		},
+		
 	}
 	
 	// Assemble CountShapes menu
@@ -57,12 +58,17 @@ console.log('shapecount library loaded');
 			imagejs.modules[id].alignCanvas(); 
 		},
 		End:function(){
-			//imagejs.msg('... counting ended.');
+			imagejs.msg('');
 			console.log('... counting ended.');
 			imagejs.modules[id].end();
+			imagejs.modules[id].alignCanvas();
 		}
 	}
 	jmat.gId('menu').appendChild(imagejs.menu(ShapesMenu,'CountShapes')); //assemble menu
+	
+	//Miscelaneous
+	$('#menu').onchange=function(){this.alignCanvas()};
+	$('#msg').onchange=function(){this.alignCanvas()};
 	
 })()
 
