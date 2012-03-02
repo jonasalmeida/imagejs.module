@@ -7,7 +7,7 @@ console.log('shapecount library loaded');
 	
 	var id='countshapes'; // name of the modules attribute where module-specific stuff will be stored
 	imagejs.modules[id]={ // this way all that pertains to the inner workings of this module stays in this branch
-		start:function(){
+		New:function(){
 			var divCountShapes=this.createCountDiv();
 			imagejs.modules[id].currentDivId=divCountShapes.id;// current count div
 			imagejs.modules[id][divCountShapes.id]={}; // save count results here
@@ -29,7 +29,7 @@ console.log('shapecount library loaded');
 			//divCountShapes.style.width=200;
 			$(divCountShapes).addClass("ui-widget-content");
 			var H='<button style="color:red" onclick="this.parentElement.parentElement.removeChild(this.parentElement)">[x]</button>';
-			H+=' | <button style="color:green" onclick="lala=this;console.log(this)">[>]</button>'
+			H+=' | <button style="color:green" onclick="imagejs.modules.'+id+'.count(\''+divCountShapes.id+'\')">[>]</button>'
 			H+='<table>';
 			H+='<tr><td>Circularity:</td><td class="countShapesCircularity">...</td></tr>';
 			H+='<tr><td>Intensity:</td><td class="countShapesIntensity">...</td></tr>';
@@ -50,13 +50,15 @@ console.log('shapecount library loaded');
 	
 	// Assemble CountShapes menu
 	var ShapesMenu={
-		Start:function(){
-			imagejs.msg('Counting started ...');
-			imagejs.modules[id].start();
+		New:function(){
+			//imagejs.msg('Counting started ...');
+			console.log('Counting started ...');
+			imagejs.modules[id].New();
 			imagejs.modules[id].alignCanvas(); 
 		},
 		End:function(){
-			imagejs.msg('... counting ended.');
+			//imagejs.msg('... counting ended.');
+			console.log('... counting ended.');
 			imagejs.modules[id].end();
 		}
 	}
