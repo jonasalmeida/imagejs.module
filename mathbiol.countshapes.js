@@ -31,10 +31,11 @@ console.log('shapecount library loaded');
 			var H='<button style="color:red" onclick="this.parentElement.parentElement.removeChild(this.parentElement);imagejs.modules.'+id+'.alignCanvas()">[x]</button>';
 			H+=' | <button style="color:green" onclick="imagejs.modules.'+id+'.count(\''+divCountShapes.id+'\')">[>]</button>'
 			H+='<table>';
+			H+='<tr><td>File:</td><td class="countShapesFile">...</td></tr>';
 			H+='<tr><td>Circularity:</td><td class="countShapesCircularity">...</td></tr>';
 			H+='<tr><td>Intensity:</td><td class="countShapesIntensity">...</td></tr>';
 			H+='<tr><td>Density:</td><td class="countShapesDensity" style="color:blue">...</td></tr>';
-			H+='<tr><td>Features:</td><td id="countShapesFeatures">...</td></tr>';
+			H+='<tr><td>Features:</td><td class="countShapesFeatures">...</td></tr>';
 			H+='</table>';
 			divCountShapes.innerHTML = H;
 			menu.appendChild(divCountShapes);
@@ -42,9 +43,11 @@ console.log('shapecount library loaded');
 		},
 		count:function(divId){
 			console.log(divId);
+			$('#'+divId+' .countShapesFile').html(imagejs.data.fname);
 			imagejs.modules[id][divId].density = jmat.sum(jmat.sum(imagejs.data.seg))/jmat.prod(jmat.size(imagejs.data.seg));
 			$('#'+divId+' .countShapesDensity').html(imagejs.modules[id][divId].density*100 + ' %');
-			
+			imagejs.modules[id][divId].features = jmat.extractSegs(jmat.clone(imagejs.data.seg));
+			$('#'+divId+' .countShapesFeatures').html(imagejs.modules[id][divId].features.length);
 		},
 		
 	}
