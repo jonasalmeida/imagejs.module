@@ -1,5 +1,5 @@
-// ImageJS module to count shapes
-console.log('shapecount library loaded');
+// ImageJS module to filter shapes
+console.log('countshapes library loaded');
 // write module as a function call to avoid messing global scope
 
 (function(){
@@ -46,9 +46,21 @@ console.log('shapecount library loaded');
 			//H+='<table>';
 			//H+='<tr><td><button onclick="imagejs.modules.'+id+'.featuresTable(\''+divCountShapes.id+'\')">Features</button> Number:</td><td class="countShapesFeatures" style="color:blue">...</td></tr>';
 			//H+='</table>';
-			H+='<button onclick="imagejs.modules.'+id+'.featuresStats(\''+divCountShapes.id+'\')" style="color:green">Features</button> Number: <span class="countShapesFeatures" style="color:blue">...</span>'
+			H+='<button onclick="imagejs.modules.'+id+'.featuresStats(\''+divCountShapes.id+'\');imagejs.modules.'+id+'.segmentationStats(\''+divCountShapes.id+'\')" style="color:green">Features</button> Number: <span class="countShapesFeatures" style="color:blue">...</span>, Filters: <span id=filterShapes style="color:blue"> ... </span>'
 			divCountShapes.innerHTML = H;
 			menu.appendChild(divCountShapes);
+			// FILTERS
+			jmat.load('http://module.imagejs.googlecode.com/git/mathbiol.filterShapes.js',function(){// callback function
+			//jmat.load('http://localhost:8888/imagejs/module/mathbiol.filterShapes.js',function(){// callback function
+				$('#filterShapes').html('');
+				var F=jmat.fieldnames(imagejs.modules.filterShapes)
+				for (var i=0;i<F.length;i++){
+					$('#filterShapes')[0].innerHTML+=' <button onclick="imagejs.modules.filterShapes.'+F[i]+'();jmat.imagebw(cvTop,jmat.edge(imagejs.data.seg),[0,0,0,0],[255,255,0,255]);">'+F[i]+'</button>';
+					
+				}
+			}
+			)
+			
 			return divCountShapes;
 		},
 		segmentationStats:function(divId){
@@ -95,9 +107,7 @@ console.log('shapecount library loaded');
 		},
 		featuresStats:function(divId){
 			imagejs.data.segs = jmat.extractSegs(jmat.clone(imagejs.data.seg));
-			$('#'+divId+' .countShapesFeatures').html(imagejs.data.segs.length);
-			
-			
+			$('#'+divId+' .countShapesFeatures').html(imagejs.data.segs.length);	
 		}
 		
 	}
