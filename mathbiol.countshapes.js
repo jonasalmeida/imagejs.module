@@ -7,6 +7,55 @@ console.log('countshapes library loaded');
 	
 	var id='countshapes'; // name of the modules attribute where module-specific stuff will be stored
 	imagejs.modules[id]={ // this way all that pertains to the inner workings of this module stays in this branch
+		UID:{}, // casheing results being saved remotely
+		buttonUID:function(that){
+			// create UID so GUI doesn't have to wait
+			var divId=that.parentElement.id;
+			var input=jQuery('#'+divId+' #inputUID')[0];
+			this.webrwURL='http://165.225.128.64/';
+			input.style.color='red';
+			//input.value=uid;
+			that.style.visibility='hidden';
+			if(input.value.length>0){ // this is about retrieving an image
+				// find out if this image is in cache or needs to be retrieved
+				$('#'+divId+' #UIDmsg').html('processing, please wait ...');
+				jmat.load(this.webrwURL+'?doc='+input.value,function(){
+					$('#'+divId+' #UIDmsg').html('');
+					input.style.color='green';
+					// find out if cvTop is there
+					if(jQuery('#cvTop').length==0){
+						var cvTop=document.createElement('canvas');
+						cvTop.style.position='absolute';
+						cvTop.id='cvTop';
+						jmat.gId('work').appendChild(cvTop);
+					}
+					// fix size
+					var sz=jmat.size(imagejs.data.dt0);
+					cvBase.width=sz[1];
+					cvBase.height=sz[0];
+					cvTop.width=cvBase.width;
+					cvTop.height=cvBase.height;
+					cvTop.style.left=cvBase.offsetLeft;cvTop.style.top=cvBase.offsetTop;
+					jmat.imwrite(cvBase,imagejs.data.dt0); // write image
+					jmat.imagebw(cvTop,jmat.edge(imagejs.data.seg),[0,0,0,0],[255,255,0,255]); // display edge
+				});
+			}
+			else{ // store image
+				var uid = jmat.uid(); // uid assigned to this data + analysis
+				imagejs.data.url=this.webURL+'?get='+uid;
+				var input = jQuery('#'+divId+' #inputUID')[0];
+				input.value=uid;
+				$('#'+divId+' #UIDmsg').html('processing, please wait ...')
+				//console.log('compression started');
+				//var w = new Worker('compressWorker.js');
+				//w.onmessage=function(event){
+				//	console.log('compressed by Worker ...');
+				//	jQuery.post('http://165.225.128.64/?set=blob&key='+uid,'imagejs.data=jmat.decompress(['+event.data+'])',function(){input.style.color='green'})}
+				//}
+				setTimeout("(function(){input = jQuery('#"+divId+" #inputUID')[0];jQuery.post('http://165.225.128.64/?set=blob&key="+uid+"','imagejs.data=jmat.decompress(['+jmat.compress(imagejs.data)+'])',function(){input.style.color='green';$('#"+divId+" #UIDmsg').html('')})})()",500);
+				}
+				//w.postMessage(imagejs.data);
+		},
 		New:function(){
 			var divCountShapes=this.createCountDiv();
 			imagejs.modules[id].currentDivId=divCountShapes.id;// current count div
@@ -31,7 +80,7 @@ console.log('countshapes library loaded');
 			// First line, file name and close button
 			H+='<button style="color:red" onclick="this.parentElement.parentElement.removeChild(this.parentElement);imagejs.modules.'+id+'.alignCanvas()">[x]</button>';
 			H+=' File :<span class="countShapesFile" style="color:blue"></span>';
-			H+=' .<br>';
+			H+=' <button id=buttonUID onclick="imagejs.modules.'+id+'.buttonUID(this)">ID:</button><input id=inputUID size=30> <span id=UIDmsg style="color:red"></span>.<br>';
 			// Second line, Segmentation Statistics
 			H+='<button style="color:green" onclick="imagejs.modules.'+id+'.segmentationStats(\''+divCountShapes.id+'\')">Segmentation</button>';
 			H+=' Density <span style="color:blue" class="countShapesDensity"> ... </span>';
@@ -46,18 +95,19 @@ console.log('countshapes library loaded');
 			//H+='<table>';
 			//H+='<tr><td><button onclick="imagejs.modules.'+id+'.featuresTable(\''+divCountShapes.id+'\')">Features</button> Number:</td><td class="countShapesFeatures" style="color:blue">...</td></tr>';
 			//H+='</table>';
-			H+='<button onclick="imagejs.modules.'+id+'.featuresStats(\''+divCountShapes.id+'\');imagejs.modules.'+id+'.segmentationStats(\''+divCountShapes.id+'\')" style="color:green">Features</button> Number: <span class="countShapesFeatures" style="color:blue">...</span>, Filters: <span id=filterShapes style="color:blue"> ... </span>'
+			H+='<button onclick="imagejs.modules.'+id+'.featuresStats(\''+divCountShapes.id+'\');imagejs.modules.'+id+'.segmentationStats(\''+divCountShapes.id+'\')" style="color:green">Features</button> Number: <span class="countShapesFeatures" style="color:blue">...</span>, Filters: <span id=filterShapes id=filterShapes style="color:blue"> ... </span>';
 			divCountShapes.innerHTML = H;
 			menu.appendChild(divCountShapes);
 			// FILTERS
+			imagejs.msg=function(x){console.log(x)};
+			//imagejs.loadModule('http://module.imagejs.googlecode.com/git/mathbiol.filterShapes.js',function(){// callback function
 			jmat.load('http://module.imagejs.googlecode.com/git/mathbiol.filterShapes.js',function(){// callback function
-			//jmat.load('http://localhost:8888/imagejs/module/mathbiol.filterShapes.js',function(){// callback function
-				$('#filterShapes').html('');
+				$('#'+divCountShapes.id+' #filterShapes').html('');
 				var F=jmat.fieldnames(imagejs.modules.filterShapes)
 				for (var i=0;i<F.length;i++){
-					$('#filterShapes')[0].innerHTML+=' <button onclick="imagejs.modules.filterShapes.'+F[i]+'();jmat.imagebw(cvTop,jmat.edge(imagejs.data.seg),[0,0,0,0],[255,255,0,255]);">'+F[i]+'</button>';
-					
+					$('#'+divCountShapes.id+' #filterShapes')[0].innerHTML+=' <button onclick="imagejs.modules.filterShapes.'+F[i]+'();jmat.imagebw(cvTop,jmat.edge(imagejs.data.seg),[0,0,0,0],[255,255,0,255]);">'+F[i]+'</button>';				
 				}
+				//$('#filterShapes_').attr('id','filterShapes')
 			}
 			)
 			
