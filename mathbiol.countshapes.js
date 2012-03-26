@@ -33,10 +33,10 @@ console.log('countshapes library loaded');
 					var sz=jmat.size(imagejs.data.dt0);
 					cvBase.width=sz[1];
 					cvBase.height=sz[0];
+					jmat.imwrite(cvBase,imagejs.data.dt0); // write image
 					cvTop.width=cvBase.width;
 					cvTop.height=cvBase.height;
 					cvTop.style.left=cvBase.offsetLeft;cvTop.style.top=cvBase.offsetTop;
-					jmat.imwrite(cvBase,imagejs.data.dt0); // write image
 					jmat.imagebw(cvTop,jmat.edge(imagejs.data.seg),[0,0,0,0],[255,255,0,255]); // display edge
 				});
 			}
