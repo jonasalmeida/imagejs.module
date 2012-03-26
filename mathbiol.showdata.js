@@ -3,7 +3,7 @@
 
 (function(){
 	if(jQuery('#cvTop').length==0){
-		var cvTop=document.createElement('canvas');
+		cvTop=document.createElement('canvas');
 		cvTop.style.position='absolute';
 		cvTop.id='cvTop';
 		jmat.gId('work').appendChild(cvTop);
