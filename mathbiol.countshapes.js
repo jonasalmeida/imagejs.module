@@ -24,7 +24,7 @@ console.log('countshapes library loaded');
 					input.style.color='green';
 					// find out if cvTop is there
 					if(jQuery('#cvTop').length==0){
-						var cvTop=document.createElement('canvas');
+						cvTop=document.createElement('canvas');
 						cvTop.style.position='absolute';
 						cvTop.id='cvTop';
 						jmat.gId('work').appendChild(cvTop);
@@ -34,11 +34,11 @@ console.log('countshapes library loaded');
 					cvBase.width=sz[1];
 					cvBase.height=sz[0];
 					jmat.imwrite(cvBase,imagejs.data.dt0); // write image
-					CvTop=jQuery('#cvTop')[0];
-					CvTop.width=cvBase.width;
-					CvTop.height=cvBase.height;
-					CvTop.style.left=cvBase.offsetLeft;CvTop.style.top=cvBase.offsetTop;
-					jmat.imagebw(CvTop,jmat.edge(imagejs.data.seg),[0,0,0,0],[255,255,0,255]); // display edge
+					//cvTop=jQuery('#cvTop')[0];
+					cvTop.width=cvBase.width;
+					cvTop.height=cvBase.height;
+					cvTop.style.left=cvBase.offsetLeft;cvTop.style.top=cvBase.offsetTop;
+					jmat.imagebw(cvTop,jmat.edge(imagejs.data.seg),[0,0,0,0],[255,255,0,255]); // display edge
 				});
 			}
 			else{ // store image
