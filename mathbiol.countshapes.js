@@ -34,6 +34,7 @@ console.log('countshapes library loaded');
 					cvBase.width=sz[1];
 					cvBase.height=sz[0];
 					jmat.imwrite(cvBase,imagejs.data.dt0); // write image
+					var cvTop=jQuery('#cvTop')[0];
 					cvTop.width=cvBase.width;
 					cvTop.height=cvBase.height;
 					cvTop.style.left=cvBase.offsetLeft;cvTop.style.top=cvBase.offsetTop;
