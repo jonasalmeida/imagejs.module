@@ -39,14 +39,14 @@
 				var y = imagejs.modules[id].y;
 				//console.log(x,y);
 				imagejs.msg('('+x+','+y+')');
-				//if (jmat.max(imagejs.data.dt0[y][x].slice(0,3))>150){var C=[0,0,1]};else{var C=[1,1,0]} // use background
+				//if (jmat.max(imagejs.data.img[y][x].slice(0,3))>150){var C=[0,0,1]};else{var C=[1,1,0]} // use background
 				var ctx=cvTop.getContext('2d');
 				ctx.clearRect(0,0,this.width,this.height);
 				if(!imagejs.modules[id].red){imagejs.modules[id].red=100};
 				if(!imagejs.modules[id].green){imagejs.modules[id].green=100};
 				if(!imagejs.modules[id].blue){imagejs.modules[id].blue=100};
-				if(!imagejs.modules[id].d){imagejs.modules[id].d=imagejs.modules[id].dist(imagejs.data.dt0,[y,x])}
-				//if(!imagejs.modules[id].d){var d = imagejs.modules[id].dist(imagejs.data.dt0,[y,x]);imagejs.modules[id].d=d;}
+				if(!imagejs.modules[id].d){imagejs.modules[id].d=imagejs.modules[id].dist(imagejs.data.img,[y,x])}
+				//if(!imagejs.modules[id].d){var d = imagejs.modules[id].dist(imagejs.data.img,[y,x]);imagejs.modules[id].d=d;}
 				//else {var d = imagejs.modules[id].d}
 				if(!imagejs.modules[id].thr){var thr = jmat.max(jmat.max(imagejs.modules[id].d))/5;imagejs.modules[id].thr=thr;}
 				else {var thr = imagejs.modules[id].thr}
@@ -107,7 +107,7 @@
 				//cvTopOnClick(evt);
 				setTimeout(cvTopOnClick, 40, evt);
 				if(!!imagejs.modules[id].d){delete imagejs.modules[id].d}
-				//imagejs.modules[id].d=imagejs.modules[id].dist(imagejs.data.dt0,[y,x]);				
+				//imagejs.modules[id].d=imagejs.modules[id].dist(imagejs.data.img,[y,x]);				
 			}
 		},
 		end:function(){

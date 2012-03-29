@@ -30,10 +30,10 @@ console.log('countshapes library loaded');
 						jmat.gId('work').appendChild(cvTop);
 					}
 					// fix size
-					var sz=jmat.size(imagejs.data.dt0);
+					var sz=jmat.size(imagejs.data.img);
 					cvBase.width=sz[1];
 					cvBase.height=sz[0];
-					jmat.imwrite(cvBase,imagejs.data.dt0); // write image
+					jmat.imwrite(cvBase,imagejs.data.img); // write image
 					//cvTop=jQuery('#cvTop')[0];
 					cvTop.width=cvBase.width;
 					cvTop.height=cvBase.height;
@@ -122,7 +122,7 @@ console.log('countshapes library loaded');
 			imagejs.data.density = jmat.sum(jmat.sum(imagejs.data.seg))/imagejs.data.n;
 			var d = imagejs.data.density*100+'';if(d.length>6){d=d.slice(0,6)};
 			$('#'+divId+' .countShapesDensity').html(d + ' %');
-			//imagejs.data.IrgbTotal=imagejs.data.dt0.map(function(x){
+			//imagejs.data.IrgbTotal=imagejs.data.img.map(function(x){
 			//	return x.map(function(y){return y}).reduce(function(a,b){
 			//		return [a[0]+b[0],a[1]+b[1],a[2]+b[2]]
 			//		})
@@ -130,7 +130,7 @@ console.log('countshapes library loaded');
 			//	return [a[0]+b[0],a[1]+b[1],a[2]+b[2]]
 			//});
 			//imagejs.data.IrgbTotal.map(function(x){return x/imagejs.data.n});
-			imagejs.data.IrgbSeg=imagejs.data.dt0.map(function(x,i){
+			imagejs.data.IrgbSeg=imagejs.data.img.map(function(x,i){
 				return x.map(function(y,j){
 						if (imagejs.data.seg[i][j]>0){return y}
 						else {return [0,0,0]}
@@ -140,7 +140,7 @@ console.log('countshapes library loaded');
 				}).reduce(function(a,b){
 				return [a[0]+b[0],a[1]+b[1],a[2]+b[2]]
 			});
-			imagejs.data.IrgbNonSeg=imagejs.data.dt0.map(function(x,i){
+			imagejs.data.IrgbNonSeg=imagejs.data.img.map(function(x,i){
 				return x.map(function(y,j){
 						if (imagejs.data.seg[i][j]>0){return [0,0,0]}
 						else {return y}
