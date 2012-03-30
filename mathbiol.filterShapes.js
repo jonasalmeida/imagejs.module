@@ -7,7 +7,7 @@ console.log('filtershapes library loaded');
 	imagejs.modules[id]={ // this way all that pertains to the inner workings of this module stays in this branch
 		round:function(){
 			var S = imagejs.data.seg;
-			var z = jmat.size(imagejs.data.dt0);
+			var z = jmat.size(imagejs.data.img);
 			imagejs.data.seg=S.map(function(si,i){
 				return si.map(function(pij,j){
 					if((i*j>0)&(i<z[0]-1)&(j<z[1]-1)){
@@ -19,7 +19,7 @@ console.log('filtershapes library loaded');
 		},
 		erode:function(){
 			var S = imagejs.data.seg;
-			var z = jmat.size(imagejs.data.dt0);
+			var z = jmat.size(imagejs.data.img);
 			imagejs.data.seg=S.map(function(si,i){
 				return si.map(function(pij,j){
 					if((i*j>0)&(i<z[0]-1)&(j<z[1]-1)){
