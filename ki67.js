@@ -148,7 +148,7 @@ console.log('KI67 module');
 		}
 	}
 	var menu={
-		'Help':function(){imagejs.msg('see <a href="#" target="blank">webcast</a>: capture two segmentations, a) positive ki67 nuclei and b) all nuclei by exclusion.')},
+		'Help':function(){imagejs.msg('see <a href="#" target="http://www.youtube.com/watch?v=kqS6FNr4VgM">webcast</a>: capture a) segmented in positive ki67 nuclei and b) segmented out all nuclei.')},
 		'Original Image':function(){imagejs.modules[id].originalImage()},
 		'Invert Colors':function(){imagejs.modules[id].invertColor()},
 		'True recolor':function(){imagejs.modules[id].trueRecolor()},
