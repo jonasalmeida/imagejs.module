@@ -154,7 +154,7 @@ console.log('KI67 module');
 		}
 	}
 	var menu={
-		'Help':function(){imagejs.msg('See <a href="http://www.youtube.com/watch?v=NCPNgRxWWDQ" target="blank">webcast</a> of capture a) segmented in positive ki67 nuclei and b) segmented out all nuclei. [<a href="https://code.google.com/p/imagejs/source/browse/ki67.js?repo=module" target="blank">Source code</a>, <a href="https://code.google.com/p/imagejs/source/list?repo=module" target="blank">Change log</a>].')},
+		'Help':function(){imagejs.msg('See <a href="http://www.youtube.com/watch?v=NCPNgRxWWDQ" target="blank"><img src="http://s.ytimg.com/yt/img/creators_corner/YouTube/40x40_yt_red.png"> screencast</a> of capture a) segmented in positive ki67 nuclei and b) segmented out all nuclei.<br> See also <a href=""><img src="http://www.googleappscentral.com/wp-content/uploads/2011/09/google-sites-icon-75x75.png"> wiki</a> for more information and calibration data. [<a href="https://code.google.com/p/imagejs/source/browse/ki67.js?repo=module" target="blank">Source code</a>, <a href="https://code.google.com/p/imagejs/source/list?repo=module" target="blank">Change log</a>].')},
 		'Original Image':function(){imagejs.modules[id].originalImage()},
 		'Invert Colors':function(){imagejs.msg('<span style="color:red">Inverting colors, please wait ...</span>');setTimeout(imagejs.modules[id].invertColor,100)},
 		'True recolor':function(){imagejs.msg('<span style="color:red">Recoloring, please wait ...</span>');setTimeout(imagejs.modules[id].trueRecolor,100)},
